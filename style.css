@@ -25,6 +25,58 @@ body {
     line-height: 1.6;
 }
 
+/* Update these styles in your style.css */
+#loadingScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--bg); /* Your existing blue background color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.welcome-message {
+    font-size: 3.5rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.fade-out {
+    opacity: 0;
+}
+.language-prompt {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+/* Hide main content while loading */
+.main-content {
+    display: none;
+}
+
 .cursor {
     width: 20px;
     height: 20px;

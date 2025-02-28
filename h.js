@@ -1,3 +1,34 @@
+
+document.addEventListener('DOMContentLoaded', () => {
+    const loadingScreen = document.getElementById('loadingScreen');
+    const mainContent = document.querySelector('.main-content');
+    const savedLanguage = localStorage.getItem('language');
+    
+    // Show welcome screen for a few seconds
+    setTimeout(() => {
+        // Fade out loading screen
+        loadingScreen.classList.add('fade-out');
+        
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            
+            if (savedLanguage) {
+                // Redirect based on saved language preference
+                if (savedLanguage === 'en' && window.location.pathname.indexOf('index-en.html') === -1) {
+                    window.location.href = 'index-en.html';
+                } else {
+                    // For Indonesian or if already on correct page
+                    mainContent.style.display = 'block';
+                }
+            } else {
+                // No language preference set yet - we'll default to Indonesian
+                localStorage.setItem('language', 'id');
+                mainContent.style.display = 'block';
+            }
+        }, 500);
+    }, 2500); // Welcome screen shows for 2.5 seconds
+});
+ 
  // Enhanced cursor functionality
  document.addEventListener('DOMContentLoaded', () => {
     const cursorOuter = document.querySelector('.cursor-outer');
@@ -204,5 +235,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close fullscreen when clicking outside the image
     fullscreenContainer.addEventListener('click', () => {
         fullscreenContainer.classList.remove('active');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const loadingScreen = document.getElementById('loadingScreen');
+    const loadingText = document.getElementById('loadingText');
+    const languageSelection = document.getElementById('languageSelection');
+    const indonesianOption = document.getElementById('indonesianOption');
+    const englishOption = document.getElementById('englishOption');
+    
+    // After loading animation completes
+    setTimeout(() => {
+        // Hide loading text
+        loadingText.style.display = 'none';
+        
+        // Show language selection
+        languageSelection.classList.add('visible');
+    }, 2500);
+    
+    // Handle language selection
+    indonesianOption.addEventListener('click', () => {
+        // Set local storage for language preference
+        localStorage.setItem('language', 'id');
+        
+        // Fade out loading screen
+        loadingScreen.classList.add('fade-out');
+        
+        // Redirect to main page after fade animation
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 500);
+    });
+    
+    englishOption.addEventListener('click', () => {
+        // Set local storage for language preference
+        localStorage.setItem('language', 'en');
+        
+        // Fade out loading screen
+        loadingScreen.classList.add('fade-out');
+        
+        // Redirect to main page after fade animation
+        setTimeout(() => {
+            window.location.href = 'index-en.html';
+        }, 500);
     });
 });
