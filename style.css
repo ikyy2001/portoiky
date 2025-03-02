@@ -25,14 +25,14 @@ body {
     line-height: 1.6;
 }
 
-/* Update these styles in your style.css */
+/* Loading Screen */
 #loadingScreen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: var(--bg); /* Your existing blue background color */
+    background-color: var(--bg);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -55,26 +55,30 @@ body {
 .fade-out {
     opacity: 0;
 }
-.language-prompt {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
+
+/* Cursor Styles */
+.cursor-outer {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(100, 255, 218, 0.5);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.3s, height 0.3s, background-color 0.3s, transform 0.1s;
+    mix-blend-mode: difference;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
-}
-
-/* Hide main content while loading */
-.main-content {
-    display: none;
+.cursor-inner {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.2s ease-out;
+    mix-blend-mode: difference;
 }
 
 .cursor {
@@ -89,14 +93,30 @@ body {
     mix-blend-mode: difference;
 }
 
+/* Cursor states for interactive elements */
+.cursor-hover {
+    width: 60px;
+    height: 60px;
+    background: rgba(100, 255, 218, 0.1);
+    border: none;
+    backdrop-filter: invert(1);
+}
+
+.cursor-click {
+    transform: scale(0.8);
+}
+
+/* Navbar Styles */
 .navbar {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     padding: 1.5rem;
     background: rgba(10, 25, 47, 0.85);
     backdrop-filter: blur(10px);
     z-index: 100;
+    transition: all 0.3s ease;
 }
 
 .navbar-content {
@@ -143,13 +163,85 @@ body {
     transform: translateX(0);
 }
 
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+    z-index: 101;
+}
+
+.bar {
+    height: 3px;
+    width: 100%;
+    background-color: var(--accent);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background: rgba(10, 25, 47, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    z-index: 99;
+    transition: right 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+}
+
+.mobile-nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 1.5rem;
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.mobile-nav a:hover {
+    color: var(--accent);
+}
+
+/* For mobile nav open state */
+.mobile-nav.active {
+    right: 0;
+}
+
+/* Transform hamburger to X when menu is open */
+.mobile-menu-toggle.active .bar:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.mobile-menu-toggle.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active .bar:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Sections */
 .section {
-    padding: 100px 10%;
-    min-height: 100vh;
+    padding: 80px 10%; 
+    min-height: auto; 
     position: relative;
+    margin-bottom: 20px; 
 }
 
 .hero {
+    min-height: 100vh;
     display: flex;
     align-items: center;
     padding-top: 80px;
@@ -186,6 +278,7 @@ body {
     animation: fadeInUp 0.6s forwards 0.9s;
 }
 
+/* About Section */
 .about {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -235,6 +328,7 @@ body {
     background: rgba(100, 255, 218, 0.1);
 }
 
+/* Projects Section */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -297,10 +391,7 @@ body {
     font-size: 0.9rem;
 }
 
-.gallery {
-    padding: 100px 10%;
-}
-
+/* Gallery Section */
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -327,6 +418,73 @@ body {
     transform: scale(1.1);
 }
 
+/* Photography Section */
+.photography {
+    padding: 100px 10%;
+    background: var(--bg);
+}
+
+.photography-preview {
+    margin-top: 3rem;
+}
+
+.preview-content {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 3rem;
+}
+
+.preview-text {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.preview-text h3 {
+    color: var(--accent);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.photo-categories {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.photo-categories span {
+    padding: 0.5rem 1.5rem;
+    background: rgba(100, 255, 218, 0.1);
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.preview-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.preview-image {
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 1;
+}
+
+.preview-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.preview-image:hover img {
+    transform: scale(1.05);
+}
+
+/* Contact Section */
 .contact {
     text-align: center;
     padding: 100px 10%;
@@ -370,125 +528,7 @@ body {
     background: rgba(100, 255, 218, 0.1);
 }
 
-.scroll-indicator {
-    position: fixed;
-    right: 40px;
-    bottom: 40px;
-    width: 2px;
-    height: 100px;
-    background: var(--text-secondary);
-}
-
-.scroll-progress {
-    width: 100%;
-    background: var(--accent);
-    height: 0%;
-    transition: height 0.1s ease;
-}
-
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: 3rem;
-    }
-
-    .nav-links {
-        display: none;
-    }
-
-    .about {
-        grid-template-columns: 1fr;
-    }
-
-    .section {
-        padding: 60px 5%;
-    }
-}
-
-/* Updated cursor styles */
-.cursor-outer {
-    width: 40px;
-    height: 40px;
-    border: 2px solid rgba(100, 255, 218, 0.5);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transition: width 0.3s, height 0.3s, background-color 0.3s, transform 0.1s;
-    mix-blend-mode: difference;
-}
-
-.cursor-inner {
-    width: 8px;
-    height: 8px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.2s ease-out;
-    mix-blend-mode: difference;
-}
-
-/* Cursor states for interactive elements */
-.cursor-hover {
-    width: 60px;
-    height: 60px;
-    background: rgba(100, 255, 218, 0.1);
-    border: none;
-    backdrop-filter: invert(1);
-}
-
-.cursor-click {
-    transform: scale(0.8);
-}
-
-/* Special cursor state for gallery images */
-.gallery-item:hover ~ .cursor-outer {
-    width: 80px;
-    height: 80px;
-    background: rgba(100, 255, 218, 0.15);
-    border: 2px solid var(--accent);
-}
-
-.gallery-item:hover ~ .cursor-inner {
-    transform: scale(1.5);
-}
-
-/* Add "View" text for gallery items */
-.gallery-item:hover ~ .cursor-outer::after {
-    content: 'View';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--accent);
-    font-size: 12px;
-    font-weight: 500;
-}
-
-/* Fullscreen cursor modifications */
-.fullscreen.active ~ .cursor-outer {
-    border-color: rgba(255, 255, 255, 0.5);
-}
-
-.fullscreen.active ~ .cursor-outer::after {
-    content: 'Close';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 12px;
-    font-weight: 500;
-}
-
+/* Fullscreen Image Viewer */
 .fullscreen {
     position: fixed;
     top: 0;
@@ -523,82 +563,128 @@ body {
     transform: scale(1);
 }
 
-/* Override cursor styles for gallery items */
-.gallery-item img {
-    cursor: pointer !important;
+/* Animations */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* Photography Preview Section Styles */
-.photography {
-    padding: 100px 10%;
-    background: var(--bg);
-}
-
-.photography-preview {
-    margin-top: 3rem;
-}
-
-.preview-content {
-    background: var(--card-bg);
-    border-radius: 15px;
-    padding: 3rem;
-}
-
-.preview-text {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.preview-text h3 {
-    color: var(--accent);
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-.photo-categories {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
-.photo-categories span {
-    padding: 0.5rem 1.5rem;
-    background: rgba(100, 255, 218, 0.1);
-    border-radius: 20px;
-    font-size: 0.9rem;
-}
-
-.preview-gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin: 2rem 0;
-}
-
-.preview-image {
-    border-radius: 10px;
-    overflow: hidden;
-    aspect-ratio: 1;
-}
-
-.preview-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.preview-image:hover img {
-    transform: scale(1.05);
+/* Media Queries for Responsive Design */
+@media (max-width: 1024px) {
+    .section {
+        padding: 80px 8%;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
+    }
+    
+    .about {
+        gap: 3rem;
+    }
 }
 
 @media (max-width: 768px) {
+    /* Show mobile menu toggle and hide nav links */
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    /* Adjust hero section */
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+    }
+    
+    /* Adjust about section to single column */
+    .about {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    /* Adjust section padding */
+    .section {
+        padding: 70px 6%;
+        min-height: auto;
+    }
+    
+    /* Adjust preview gallery */
+    .preview-gallery {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    /* Hide cursor on mobile devices */
+    .cursor-outer, .cursor-inner, .cursor {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Further reduce padding */
+    .section {
+        padding: 60px 5%;
+    }
+    
+    /* Smaller hero title */
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    /* Adjust project cards */
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Adjust preview gallery to single column */
     .preview-gallery {
         grid-template-columns: 1fr;
     }
     
+    /* Adjust preview content padding */
     .preview-content {
         padding: 1.5rem;
+    }
+    
+    /* Center align project tags */
+    .project-tags {
+        justify-content: center;
+    }
+    
+    /* Welcome message size adjustment */
+    .welcome-message {
+        font-size: 2.5rem;
+    }
+}
+
+/* Additional mobile optimizations */
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .social-links {
+        gap: 1.5rem;
+    }
+    
+    .mobile-nav a {
+        font-size: 1.2rem;
     }
 }
